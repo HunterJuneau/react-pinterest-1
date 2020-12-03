@@ -11,6 +11,7 @@ export default class Pins extends React.Component {
 
   componentDidMount() {
     const userId = getUid();
+    console.warn(userId);
     getAllUserPins(userId).then((pins) => this.setState({ pins }));
   }
 
