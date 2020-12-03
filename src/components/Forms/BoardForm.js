@@ -11,7 +11,7 @@ export default class BoardForm extends Component {
     imageUrl: this.props.board?.imageUrl || '',
     userId: this.props.board?.userId || '',
     description: this.props.board?.description || '',
-  }
+  };
 
   componentDidMount() {
     const userId = getUser();
@@ -22,7 +22,9 @@ export default class BoardForm extends Component {
     if (e.target.name === 'filename') {
       this.setState({ imageUrl: '' });
       const storageRef = firebase.storage().ref();
-      const imagesRef = storageRef.child(`pinterest/${this.state.userId}/${Date.now()}${e.target.files[0].name}`);
+      const imagesRef = storageRef.child(
+        `pinterest/${this.state.userId}/${Date.now()}${e.target.files[0].name}`,
+      );
 
       imagesRef.put(e.target.files[0]).then((snapshot) => {
         snapshot.ref.getDownloadURL().then((imageUrl) => {
@@ -34,71 +36,86 @@ export default class BoardForm extends Component {
         [e.target.name]: e.target.value,
       });
     }
-  }
+  };
 
   handleSubmit = (e) => {
     e.preventDefault();
     this.btn.setAttribute('disabled', 'disabled');
     if (this.state.firebaseKey === '') {
-      createBoard(this.state)
-        .then(() => {
-          this.props.onUpdate?.();
-          this.setState({ success: true });
-        });
+      createBoard(this.state).then(() => {
+        this.props.onUpdate?.();
+        this.setState({ success: true });
+      });
     } else {
-      updateBoard(this.state)
-        .then(() => {
-          this.props.onUpdate?.(this.props.board.firebaseKey);
-          this.setState({ success: true });
-        });
+      updateBoard(this.state).then(() => {
+        this.props.onUpdate?.(this.props.board.firebaseKey);
+        this.setState({ success: true });
+      });
     }
-  }
+  };
 
   render() {
     const { success } = this.state;
     return (
       <>
-      { success && (<div className="alert alert-success" role="alert">Your Board was Updated/Created</div>)
-      }
-      <form onSubmit={this.handleSubmit}>
-        <div>
-        <input
-          type='text'
-          name='name'
-          value={this.state.name}
-          onChange={this.handleChange}
-          placeholder='Board Name'
-          className="form-control form-control-lg m-1"
-          required
-        />
-        </div>
-        <div>
-        <input
-          type='text'
-          name='description'
-          value={this.state.description}
-          onChange={this.handleChange}
-          placeholder='Board Description'
-          className="form-control form-control-lg m-1"
-          required
-        />
-        </div>
-        <div>
-        <input
-          type='url'
-          name='imageUrl'
-          value={this.state.imageUrl}
-          onChange={this.handleChange}
-          placeholder='Enter an Image URL or Upload a File'
-          className="form-control form-control-lg m-1"
-          required
-        />
-        </div>
-        <div>
-         <input className="m-2" type="file" id="myFile" name="filename" accept="image/*" onChange={this.handleChange} />
-         </div>
-         <button ref={(btn) => { this.btn = btn; }} className="btn btn-primary m-2">Submit</button>
-      </form>
+        {success && (
+          <div className='alert alert-success' role='alert'>
+            Your Board was Updated/Created
+          </div>
+        )}
+        <form onSubmit={this.handleSubmit}>
+          <div>
+            <input
+              type='text'
+              name='name'
+              value={this.state.name}
+              onChange={this.handleChange}
+              placeholder='Board Name'
+              className='form-control form-control-lg m-1'
+              required
+            />
+          </div>
+          <div>
+            <input
+              type='text'
+              name='description'
+              value={this.state.description}
+              onChange={this.handleChange}
+              placeholder='Board Description'
+              className='form-control form-control-lg m-1'
+              required
+            />
+          </div>
+          <div>
+            <input
+              type='url'
+              name='imageUrl'
+              value={this.state.imageUrl}
+              onChange={this.handleChange}
+              placeholder='Enter an Image URL or Upload a File'
+              className='form-control form-control-lg m-1'
+              required
+            />
+          </div>
+          <div>
+            <input
+              className='m-2'
+              type='file'
+              id='myFile'
+              name='filename'
+              accept='image/*'
+              onChange={this.handleChange}
+            />
+          </div>
+          <button
+            ref={(btn) => {
+              this.btn = btn;
+            }}
+            className='btn btn-primary m-2'
+          >
+            Submit
+          </button>
+        </form>
       </>
     );
   }

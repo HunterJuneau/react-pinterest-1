@@ -7,7 +7,7 @@ import Loader from '../components/Loader';
 export default class Pins extends React.Component {
   state = {
     pins: [],
-  }
+  };
 
   componentDidMount() {
     const userId = getUid();
@@ -17,13 +17,11 @@ export default class Pins extends React.Component {
   render() {
     const { pins } = this.state;
     const renderPins = () => (
-      pins.length
-        ? pins.map((pin) => (
-          <PinsCard key={pin.firebaseKey} pin={pin} />
-        )) : (
-          <Loader />
-        )
-    );
+      pins.length ? (
+        pins.map((pin) => <PinsCard key={pin.firebaseKey} pin={pin} />)
+      ) : (
+        <Loader />
+      ));
     return (
       <div>
         <h1 className='mt-5'>My Pins</h1>

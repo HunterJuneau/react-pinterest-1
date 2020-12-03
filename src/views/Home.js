@@ -9,7 +9,7 @@ export default class Home extends React.Component {
   state = {
     pins: [],
     loading: true,
-  }
+  };
 
   componentDidMount() {
     this.getPins();
@@ -17,14 +17,13 @@ export default class Home extends React.Component {
 
   getPins = () => {
     const userId = getUid();
-    getAllPins(userId)
-      .then((pins) => {
-        this.setState({
-          pins,
-          loading: false,
-        });
+    getAllPins(userId).then((pins) => {
+      this.setState({
+        pins,
+        loading: false,
       });
-  }
+    });
+  };
 
   loadComponent = () => {
     const { user } = this.props;
@@ -32,9 +31,8 @@ export default class Home extends React.Component {
     if (user === null) {
       component = <Loader />;
     } else if (user) {
-      component = this.state.pins.length
-      && this.state.pins.map((pin) => (
-        <PinsCard key={pin.firebaseKey} pin={pin} />
+      component = this.state.pins.length && this.state.pins.map((pin) => (
+          <PinsCard key={pin.firebaseKey} pin={pin} />
       ));
     } else {
       component = <Auth />;
@@ -47,7 +45,7 @@ export default class Home extends React.Component {
       <div>
         <h1 className='mt-5'>Welcome to React Pinterest</h1>
         <div className='d-flex flex-wrap container justify-content-center'>
-        {!this.state.loading && this.loadComponent()}
+          {!this.state.loading && this.loadComponent()}
         </div>
       </div>
     );
