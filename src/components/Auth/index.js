@@ -8,7 +8,7 @@ export default class Auth extends Component {
     e.preventDefault();
     const provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider);
-  }
+  };
 
   render() {
     return (

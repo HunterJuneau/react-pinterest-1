@@ -11,7 +11,7 @@ export default class Boards extends React.Component {
   state = {
     boards: [],
     loading: true,
-  }
+  };
 
   componentDidMount() {
     this.getBoards();
@@ -20,17 +20,20 @@ export default class Boards extends React.Component {
   getBoards = () => {
     const currentUserId = getUid();
     getAllUserBoards(currentUserId).then((response) => {
-      this.setState({
-        boards: response,
-      }, this.setLoading);
+      this.setState(
+        {
+          boards: response,
+        },
+        this.setLoading,
+      );
     });
-  }
+  };
 
   setLoading = () => {
     this.timer = setInterval(() => {
       this.setState({ loading: false });
     }, 1000);
-  }
+  };
 
   componentWillUnmount() {
     clearInterval(this.timer);
@@ -40,20 +43,28 @@ export default class Boards extends React.Component {
     const { boards, loading } = this.state;
     const { user } = this.props;
     const showBoards = () => (
-      boards.map((board) => <BoardsCard key={board.firebaseKey} board={board} />)
-    );
+      boards.map((board) => (
+        <BoardsCard key={board.firebaseKey} board={board} />
+      )));
     return (
       <>
-        { loading ? (
+        {loading ? (
           <Loader />
         ) : (
           <>
-          <AppModal title={'Add Board'} btnColor={'danger'} icon={'fa-plus-circle'} className='align-right'>
-            <BoardForm onUpdate={this.getBoards} />
-          </AppModal>
-          <PageHeader user={user} />
-          <h1>Boards</h1>
-          <div className='d-flex flex-wrap justify-content-center container'>{showBoards()}</div>
+            <AppModal
+              title={'Add Board'}
+              btnColor={'danger'}
+              icon={'fa-plus-circle'}
+              className='align-right'
+            >
+              <BoardForm onUpdate={this.getBoards} />
+            </AppModal>
+            <PageHeader user={user} />
+            <h1>Boards</h1>
+            <div className='d-flex flex-wrap justify-content-center container'>
+              {showBoards()}
+            </div>
           </>
         )}
       </>

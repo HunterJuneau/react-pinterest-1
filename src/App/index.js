@@ -35,9 +35,9 @@ class App extends React.Component {
     return (
       <div className='App'>
         <Router>
-          <MyNavbar user={user}/>
+          <MyNavbar user={user} />
           {/* TODO: make sure the user has been evaluated on each route load */}
-          { user !== null && <Routes user={user} /> }
+          {user !== null && <Routes user={user} />}
         </Router>
       </div>
     );
